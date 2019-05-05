@@ -1,0 +1,8 @@
+package src.main.resources.file.dao;
+
+import com.absmis.JpaRepository.MyRepository;
+import com.absmis.domain.authority.Role;
+
+@org.springframework.stereotype.Repository()
+public interface StudentRepository extends MyRepository {
+}
