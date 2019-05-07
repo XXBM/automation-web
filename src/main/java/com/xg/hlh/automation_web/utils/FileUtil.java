@@ -68,4 +68,35 @@ public class FileUtil {
         }
         return flag;
     }
+
+    /**
+     * 搜索指定路径下指定文件名的文件
+     * @param baseDirName
+     * @param targetFileName
+     * @return
+     */
+    public static boolean deleteFile(String baseDirName, String targetFileName) {
+
+        File baseDir = new File(baseDirName);		// 创建一个File对象
+        if (!baseDir.exists() || !baseDir.isDirectory()) {	// 判断目录是否存在
+            System.out.println("文件查找失败：" + baseDirName + "不是一个目录！");
+        }
+        String tempName = null;
+        //判断目录是否存在
+        File tempFile;
+        File[] files = baseDir.listFiles();
+        for (int i = 0; i < files.length; i++) {
+            tempFile = files[i];
+            if(tempFile.isDirectory()){
+                deleteFile(tempFile.getAbsolutePath(), targetFileName);
+            }else if(tempFile.isFile()){
+                tempName = tempFile.getName();
+                System.out.println(tempName);
+                if(tempName.equals(targetFileName)){
+                    return tempFile.delete();
+                }
+            }
+        }
+        return false;
+    }
 }

@@ -5,6 +5,7 @@ import com.xg.hlh.automation_web.exception.Result;
 import com.xg.hlh.automation_web.exception.ResultUtil;
 import com.xg.hlh.automation_web.utils.FileUtil;
 import com.xg.hlh.automation_web.utils.StaticVariable;
+import org.apache.juli.logging.Log;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -54,10 +55,12 @@ public class FileUploadController {
     }
 
     // 删除单个文件
-    @PostMapping("/deleteFile")
-    public String delFile(String path) {
-
-        return "";
+    @GetMapping("/deleteFile")
+    public boolean deleteFile(@RequestParam("fileName") String fileName) {
+        if (fileName!=null&&!"".equals(fileName)){
+            return FileUtil.deleteFile("src\\main\\resources\\com\\xg\\hlh\\bysj", fileName);
+        }
+        return false;
     }
 
     // 批量删除
@@ -69,6 +72,7 @@ public class FileUploadController {
         FileUtil.delAllFile(StaticVariable.operateControllerPath);
         return ResultUtil.success();
     }
+
 }
 
 
