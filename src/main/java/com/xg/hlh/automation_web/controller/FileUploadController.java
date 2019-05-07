@@ -18,6 +18,7 @@ import java.util.List;
 @RestController
 public class FileUploadController {
 
+
     //单个文件上传
     @RequestMapping("/fileUpload")
     public String fileUpload( MultipartFile file) throws IOException {

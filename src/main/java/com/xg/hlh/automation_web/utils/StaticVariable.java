@@ -1,6 +1,7 @@
 package com.xg.hlh.automation_web.utils;
 
 public class StaticVariable {
+
     public static String rootPath = System.getProperty("user.dir");
 
     public static String importDomainPackage = "com.xg.hlh.bysj.domain";
