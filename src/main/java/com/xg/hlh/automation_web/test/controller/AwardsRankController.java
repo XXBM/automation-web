@@ -24,7 +24,7 @@ public class AwardsRankController {
     /*find by pageble*/
     @RequestMapping(value = "/displayAllAwardsRanks", method = RequestMethod.GET)
     public Map<String, Object> displayAllAwardsRanks(@RequestParam(value = "page") Integer page,
-                                                        @RequestParam(value = "rows") Integer size)throws Exception {
+                                                     @RequestParam(value = "rows") Integer size)throws Exception {
         Page<AwardsRank> list = awardsRankService.findAllPagebleT(new PageRequest(page - 1, size));
         Map<String, Object> map = new HashMap<String, Object>();
         int total = awardsRankService.findAllT().size();
