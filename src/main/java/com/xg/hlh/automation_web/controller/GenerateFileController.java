@@ -78,7 +78,7 @@ public class GenerateFileController {
         String fileName;
         for(int i=0;i<fileNames.length;i++){
             fileName = fileNames[i];
-            generateFileService.generateServiceFile(fileName.substring(0,fileName.lastIndexOf(".")));
+            generateFileService.generateServiceFile(fileName.substring(0,fileName.lastIndexOf("R")));
         }
         return ResultUtil.success();
     }
@@ -89,7 +89,7 @@ public class GenerateFileController {
         String fileName;
         for(int i=0;i<fileNames.length;i++){
             fileName = fileNames[i];
-            generateFileService.generateControllerFile(fileName.substring(0,fileName.lastIndexOf(".")));
+            generateFileService.generateControllerFile(fileName.substring(0,fileName.lastIndexOf("S")));
         }
         return ResultUtil.success();
     }
