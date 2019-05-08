@@ -1,14 +1,10 @@
 package com.xg.hlh.automation_web.controller;
 
-import com.xg.hlh.automation_web.entity.FileDomain;
 import com.xg.hlh.automation_web.entity.VariableDomain;
-import com.xg.hlh.automation_web.test.domain.AwardsRank;
 import com.xg.hlh.automation_web.utils.FileUtil;
 import com.xg.hlh.automation_web.utils.JavaParserService;
 import com.xg.hlh.automation_web.utils.StaticVariable;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
