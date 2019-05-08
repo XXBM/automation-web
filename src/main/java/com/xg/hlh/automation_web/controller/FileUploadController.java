@@ -1,6 +1,7 @@
 package com.xg.hlh.automation_web.controller;
 
 
+import com.xg.hlh.automation_web.entity.FileDomain;
 import com.xg.hlh.automation_web.exception.Result;
 import com.xg.hlh.automation_web.exception.ResultUtil;
 import com.xg.hlh.automation_web.utils.FileUtil;
@@ -47,10 +48,17 @@ public class FileUploadController {
         return fileNames;
     }
 
-    // 批量上传
+    // 返回所有上传成功的实体类
     @GetMapping("/getDomainFiles")
-    public List<File> getDomainFiles() throws IOException {
-        return FileUtil.findAllFile(StaticVariable.operateDomainPath);
+    public List<FileDomain> getDomainFiles() throws IOException {
+         List<String> stringList =  FileUtil.findAllFileName(StaticVariable.operateDomainPath);
+         List<FileDomain> fileDomains = new ArrayList<>();
+        FileDomain fileDomain = null;
+         for(int i=0;i<stringList.size();i++){
+             fileDomain = new FileDomain(stringList.get(i),"done");
+             fileDomains.add(fileDomain);
+         }
+         return fileDomains;
     }
 
     // 删除单个文件
