@@ -91,7 +91,6 @@ public class FileUtil {
                 deleteFile(tempFile.getAbsolutePath(), targetFileName);
             }else if(tempFile.isFile()){
                 tempName = tempFile.getName();
-                System.out.println(tempName);
                 if(tempName.equals(targetFileName)){
                     return tempFile.delete();
                 }
