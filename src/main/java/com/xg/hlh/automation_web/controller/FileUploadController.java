@@ -75,6 +75,7 @@ public class FileUploadController {
         FileUtil.delAllFile(StaticVariable.operateDaoPath);
         FileUtil.delAllFile(StaticVariable.operateServicePath);
         FileUtil.delAllFile(StaticVariable.operateControllerPath);
+        FileUtil.delAllFile(StaticVariable.operateZipDirPath);
         return ResultUtil.success();
     }
 }

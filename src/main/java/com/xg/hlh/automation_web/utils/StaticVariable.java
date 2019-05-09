@@ -18,4 +18,7 @@ public class StaticVariable {
     public static String operateBasicServicePath = rootPath+"/src/main/resources/com/xg/hlh/bysj/BasicService/";
     public static String operateJpaRepositoryPath = rootPath+"/src/main/resources/com/xg/hlh/bysj/JpaRepository/";
 
+    public static String operateRootDirPath = rootPath+"/src/main/resources/com/";
+    public static String operateZipDirPath = rootPath+"/src/main/resources/zipDir/";
+
 }
