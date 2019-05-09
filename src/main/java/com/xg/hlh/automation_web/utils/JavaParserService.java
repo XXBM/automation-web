@@ -191,7 +191,7 @@ public class JavaParserService extends VoidVisitorAdapter<List<FieldDeclaration>
      * @param variableAnnotations 变量要添加的注解们
      * @throws IOException
      */
-    public void addAnnotations(String filePath,String variableName,List<String> variableAnnotations) throws IOException {
+    public void addAnnotationsForVariable(String filePath,String variableName,List<String> variableAnnotations) throws IOException {
         List<FieldDeclaration> fieldDeclarations = new ArrayList<>();
         //javaparser解析java文件的对象
         File javaFile = new File(filePath);

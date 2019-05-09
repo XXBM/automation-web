@@ -1,5 +1,6 @@
 package com.xg.hlh.automation_web.controller;
 
+import com.github.javaparser.ast.body.FieldDeclaration;
 import com.xg.hlh.automation_web.entity.VariableDomain;
 import com.xg.hlh.automation_web.exception.Result;
 import com.xg.hlh.automation_web.exception.ResultUtil;
@@ -81,8 +82,8 @@ public class AddAnnotationController {
      * @return
      * @throws IOException
      */
-    @RequestMapping(value = "/addAnnotationForClass", method = RequestMethod.POST)
-    public Result addAnnotationForClass(@RequestParam(value = "className") String className,
+    @RequestMapping(value = "/addAnnotationsForClass", method = RequestMethod.POST)
+    public Result addAnnotationsForClass(@RequestParam(value = "className") String className,
                                         @RequestParam(value = "classAnnotations") String classAnnotations[]) throws IOException {
         List<String> stringList = new ArrayList<>();
         for(int i=0;i<classAnnotations.length;i++){
@@ -93,12 +94,48 @@ public class AddAnnotationController {
     }
 
 
-    @RequestMapping(value = "/addAnnotationForVariable", method = RequestMethod.POST)
-    public Result addAnnotationForVariable(@RequestParam(value = "className") String className,
-                                           @RequestParam(value = "variableName") String variableName,
-                                        @RequestParam(value = "variableAnnotations") String variableAnnotations[]) throws IOException {
-        List<String> stringList = new ArrayList<>();
+    /**
+     * 为实体类添加注解（包括类注解和变量注解）
+     * @param className 类名 例如："Student.java"
+     * @param classAnnotations 类上要添加的注解们
+     * @param variableAnnotations Map<变量名，变量要添加的注解们>
+     * @return
+     * @throws IOException
+     */
+    @RequestMapping(value = "/addAnnotations", method = RequestMethod.POST)
+    public Result addAnnotations(@RequestParam(value = "className") String className,
+                                           @RequestParam(value = "classAnnotations") List<String> classAnnotations,
+                                        @RequestParam(value = "variableAnnotations") Map<String,List<String>> variableAnnotations) throws IOException {
+        List<String> classList = new ArrayList<>();
+        for(int i=0;i<classAnnotations.size();i++){
+            classList.add(this.annotationDomainService.findBySimpleAnnotation(classAnnotations.get(i)).getAnnotation());
+        }
 
+        Map<String,List<String>> variableMap = new HashMap();
+        List<String> variableList = new ArrayList<>();
+        List<String> annotationStrs;
+        for (Map.Entry<String,List<String>> entry : variableAnnotations.entrySet()) {
+            annotationStrs = entry.getValue();
+            for(int i=0;i<annotationStrs.size();i++){
+                variableList.add(this.annotationDomainService.findBySimpleAnnotation(annotationStrs.get(i)).getAnnotation());
+            }
+            variableMap.put(entry.getKey(),variableList);
+        }
+
+        javaParserService.addAnnotations(StaticVariable.operateDomainPath+className,classList,variableMap);
+        return ResultUtil.success();
+    }
+
+
+    @RequestMapping(value = "/addAnnotationsForVariable", method = RequestMethod.POST)
+    public Result addAnnotationsForVariable(@RequestParam(value = "className") String className,
+                                           @RequestParam(value = "variableName") String variableName,
+                                           @RequestParam(value = "variableAnnotations") String variableAnnotations[]) throws IOException {
+        List<String> stringList = new ArrayList<>();
+        for(int i=0;i<variableAnnotations.length;i++){
+            stringList.add(this.annotationDomainService.findBySimpleAnnotation(variableAnnotations[i]).getAnnotation());
+        }
+        javaParserService.addAnnotationsForVariable(StaticVariable.operateDomainPath+className,variableName,stringList);
         return ResultUtil.success();
     }
 
