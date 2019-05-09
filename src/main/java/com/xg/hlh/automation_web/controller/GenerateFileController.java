@@ -27,7 +27,7 @@ public class GenerateFileController {
         List<ClassDomain> classDomains = new ArrayList<>();
         ClassDomain classDomain = null;
         for(int i=0;i<stringList.size();i++){
-            classDomain = new ClassDomain(stringList.get(i));
+            classDomain = new ClassDomain(""+i,stringList.get(i),"left");
             classDomains.add(classDomain);
         }
         return classDomains;
@@ -40,7 +40,7 @@ public class GenerateFileController {
         List<ClassDomain> classDomains = new ArrayList<>();
         ClassDomain classDomain = null;
         for(int i=0;i<stringList.size();i++){
-            classDomain = new ClassDomain(stringList.get(i));
+            classDomain = new ClassDomain(""+i,stringList.get(i),"left");
             classDomains.add(classDomain);
         }
         return classDomains;
@@ -53,7 +53,7 @@ public class GenerateFileController {
         List<ClassDomain> classDomains = new ArrayList<>();
         ClassDomain classDomain = null;
         for(int i=0;i<stringList.size();i++){
-            classDomain = new ClassDomain(stringList.get(i));
+            classDomain = new ClassDomain(""+i,stringList.get(i),"left");
             classDomains.add(classDomain);
         }
         return classDomains;
