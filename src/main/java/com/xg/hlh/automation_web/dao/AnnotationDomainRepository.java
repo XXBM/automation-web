@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AnnotationDomainRepository extends MyRepository<AnnotationDomain,Integer> {
-
+    AnnotationDomain findBySimpleAnnotation(String simpleAnnotation);
 }

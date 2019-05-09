@@ -162,6 +162,64 @@ public class JavaParserService extends VoidVisitorAdapter<List<FieldDeclaration>
 
 
     /**
+     * 为某个实体类添加类注解
+     * @param filePath 类的完整路径
+     * @param classAnnotationList{"注解a","注解b","注解c"}
+     * @throws IOException
+     */
+    public void addAnnotationsForClass(String filePath,List<String> classAnnotationList) throws IOException {
+        List<FieldDeclaration> fieldDeclarations = new ArrayList<>();
+        //javaparser解析java文件的对象
+        File javaFile = new File(filePath);
+        CompilationUnit cu = JavaParser.parse(javaFile);
+
+        //添加类注解
+        ClassOrInterfaceDeclaration classOrInterfaceDeclaration = (ClassOrInterfaceDeclaration) cu.getType(0);
+        for(int i=0;i<classAnnotationList.size();i++){
+            classOrInterfaceDeclaration.addAndGetAnnotation(classAnnotationList.get(i));
+        }
+
+        //将修改写入文件
+        Files.write(javaFile.toPath(),cu.toString().getBytes());
+    }
+
+
+    /**
+     * 为某个类的某个变量添加注解们
+     * @param filePath 类的完整路径
+     * @param variableName 变量名
+     * @param variableAnnotations 变量要添加的注解们
+     * @throws IOException
+     */
+    public void addAnnotations(String filePath,String variableName,List<String> variableAnnotations) throws IOException {
+        List<FieldDeclaration> fieldDeclarations = new ArrayList<>();
+        //javaparser解析java文件的对象
+        File javaFile = new File(filePath);
+        CompilationUnit cu = JavaParser.parse(javaFile);
+
+        //访问解析到的java语法树，初始化字段集合
+        this.visit(cu,fieldDeclarations);
+
+        //将变量名-变量对象一一对应
+        HashMap<String,FieldDeclaration> propertyMaps = new HashMap<String, FieldDeclaration>();
+        for(FieldDeclaration fieldDeclaration : fieldDeclarations){
+            String propertyName = fieldDeclaration.getVariable(0).getNameAsString();
+            propertyMaps.put(propertyName,fieldDeclaration);
+        }
+
+        //添加变量注解
+        FieldDeclaration fd= propertyMaps.get(variableName);
+        for(int i=0;i<variableAnnotations.size();i++){
+            addAnnotationsByVariable(fd,variableAnnotations.get(i));
+        }
+
+        //将修改写入文件
+        Files.write(javaFile.toPath(),cu.toString().getBytes());
+    }
+
+
+
+    /**
      * 为某个文件导包
      * @param filePath 文件路径
      * "src/main/resources/com.xg.hlh.com/BasicService/BasicService.java"
