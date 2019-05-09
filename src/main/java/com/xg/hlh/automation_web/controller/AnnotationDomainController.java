@@ -36,6 +36,20 @@ public class AnnotationDomainController {
         List<AnnotationDomain> annotationDomains = annotationDomainService.findAllT();
         return annotationDomains;
     }
+    /*find all class annotation*/
+    @RequestMapping(value = "/findAllClassAnnotation", method = RequestMethod.GET)
+    public List<AnnotationDomain> findAllClassAnnotation() {
+        List<AnnotationDomain> annotationDomains = annotationDomainService.findByType(0);
+        return annotationDomains;
+    }
+
+    /*find all variable annotation*/
+    @RequestMapping(value = "/findAllVariableAnnotation", method = RequestMethod.GET)
+    public List<AnnotationDomain> findAllVariableAnnotation() {
+        List<AnnotationDomain> annotationDomains = annotationDomainService.findByType(1);
+        return annotationDomains;
+    }
+
 
     /*find by pageble*/
     @RequestMapping(value = "/displayAllAnnotationDomains", method = RequestMethod.GET)

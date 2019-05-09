@@ -7,6 +7,8 @@ import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class AnnotationDomainService extends BasicService<AnnotationDomain,Integer> {
@@ -14,5 +16,9 @@ public class AnnotationDomainService extends BasicService<AnnotationDomain,Integ
     AnnotationDomainRepository annotationDomainRepository;
     public AnnotationDomain findBySimpleAnnotation(String simpleAnnotation){
         return this.annotationDomainRepository.findBySimpleAnnotation(simpleAnnotation);
+    }
+
+    public List<AnnotationDomain> findByType(Integer type) {
+        return this.annotationDomainRepository.findByType(type);
     }
 }

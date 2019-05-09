@@ -13,6 +13,7 @@ public class AnnotationDomain implements Serializable {
     private Integer id;
     private String simpleAnnotation;
     private String annotation;
+    private Integer type;
 
     public AnnotationDomain() {
     }
@@ -43,5 +44,13 @@ public class AnnotationDomain implements Serializable {
 
     public void setAnnotation(String annotation) {
         this.annotation = annotation;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 }
