@@ -107,7 +107,7 @@ public class JavaParserService extends VoidVisitorAdapter<List<FieldDeclaration>
         //添加类注解
         ClassOrInterfaceDeclaration classOrInterfaceDeclaration = (ClassOrInterfaceDeclaration) cu.getType(0);
         for(int i=0;i<classAnnotationList.size();i++){
-            classOrInterfaceDeclaration.addAndGetAnnotation(classAnnotationList.get(i));
+            addAnnotationsByClass(classOrInterfaceDeclaration, classAnnotationList.get(i));
         }
 
         //访问解析到的java语法树，初始化字段集合
@@ -159,6 +159,34 @@ public class JavaParserService extends VoidVisitorAdapter<List<FieldDeclaration>
             }
         }
     }
+
+
+    /**
+     *
+     * @param cid
+     * @param annotationStr
+     */
+    public void addAnnotationsByClass(ClassOrInterfaceDeclaration cid,String annotationStr){
+        annotationStr.trim();
+        //注解名字javax.persistence.OneToMany
+        String annotationName = annotationStr.substring(0,annotationStr.lastIndexOf("("));
+        NormalAnnotationExpr normalAnnotationExpr = cid.addAndGetAnnotation(annotationName);
+        //注解内容
+        //mappedBy = \"employee\", fetch = javax.persistence.FetchType.LAZY, cascade = javax.persistence.CascadeType.ALL
+        String value = annotationStr.substring(annotationStr.lastIndexOf("(")+1,annotationStr.lastIndexOf(")"));
+        if(!value.isEmpty()){
+            //fetch = javax.persistence.FetchType.LAZY
+            String varibles[] = value.split(",");
+            for(int i=0;i<varibles.length;i++){
+                //fetch是var[0]
+                //javax.persistence.FetchType.LAZY是var[1]
+                String var[] = varibles[i].split("=");
+                normalAnnotationExpr.addPair(var[0],var[1]);
+            }
+        }
+    }
+
+
 
 
     /**

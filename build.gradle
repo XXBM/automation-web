@@ -21,6 +21,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'com.github.javaparser:javaparser-symbol-solver-core:3.12.0'
     implementation 'commons-io:commons-io:2.5'
+    implementation 'com.google.code.gson:gson'
     //implementation 'com.github.javaparser:javaparser-core:3.13.10'
     //implementation 'com.github.javaparser:javaparser-core-serialization:3.13.10'
     runtimeOnly 'mysql:mysql-connector-java'

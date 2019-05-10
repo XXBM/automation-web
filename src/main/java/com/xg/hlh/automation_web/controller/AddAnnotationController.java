@@ -1,6 +1,7 @@
 package com.xg.hlh.automation_web.controller;
 
 import com.github.javaparser.ast.body.FieldDeclaration;
+import com.google.gson.Gson;
 import com.xg.hlh.automation_web.entity.VariableDomain;
 import com.xg.hlh.automation_web.exception.Result;
 import com.xg.hlh.automation_web.exception.ResultUtil;
@@ -9,6 +10,7 @@ import com.xg.hlh.automation_web.utils.FileUtil;
 import com.xg.hlh.automation_web.utils.JavaParserService;
 import com.xg.hlh.automation_web.utils.StaticVariable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.json.JsonParser;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -104,19 +106,23 @@ public class AddAnnotationController {
      */
     @RequestMapping(value = "/addAnnotations", method = RequestMethod.POST)
     public Result addAnnotations(@RequestParam(value = "className") String className,
-                                           @RequestParam(value = "classAnnotations") List<String> classAnnotations,
-                                        @RequestParam(value = "variableAnnotations") Map<String,List<String>> variableAnnotations) throws IOException {
+                                 @RequestParam(value = "classAnnotations") List<String> classAnnotations,
+                                 @RequestParam(value = "variableAnnotations") String variableAnnotations) throws IOException {
+        /*将第三个参数从String转换为Map*/
+        Gson gson = new Gson();
+        Map<String, List<String>> variableAnnotationMap = new HashMap<String, List<String>>();
+        variableAnnotationMap = gson.fromJson(variableAnnotations, variableAnnotationMap.getClass());
         List<String> classList = new ArrayList<>();
         for(int i=0;i<classAnnotations.size();i++){
             classList.add(this.annotationDomainService.findBySimpleAnnotation(classAnnotations.get(i)).getAnnotation());
         }
 
         Map<String,List<String>> variableMap = new HashMap();
-        List<String> variableList = new ArrayList<>();
         List<String> annotationStrs;
-        for (Map.Entry<String,List<String>> entry : variableAnnotations.entrySet()) {
+        for (Map.Entry<String,List<String>> entry : variableAnnotationMap.entrySet()) {
+            List<String> variableList = new ArrayList<>();
             annotationStrs = entry.getValue();
-            for(int i=0;i<annotationStrs.size();i++){
+            for(int i=0; i<annotationStrs.size(); i++){
                 variableList.add(this.annotationDomainService.findBySimpleAnnotation(annotationStrs.get(i)).getAnnotation());
             }
             variableMap.put(entry.getKey(),variableList);
